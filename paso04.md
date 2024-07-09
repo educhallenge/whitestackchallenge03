@@ -84,6 +84,7 @@ Creamos el playbook para desplegar PuppetServer, PuppetAgent.
 
 
 ```
+challenger-16@challenge-3-pivote:~/ansible-dir$ echo '
 ---
 - hosts: all
   gather_facts: no

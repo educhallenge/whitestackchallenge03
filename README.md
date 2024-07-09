@@ -1,1 +1,1 @@
-En este repositorio tenemos archivos .md dedicados para describir cada paso del challenge03
+En este repositorio tenemos un archivo .md por cada paso del challenge03

@@ -3,8 +3,8 @@
 En este paso ejecutamos el playbook que creamos en el paso anterior.
 En el output de abajo podemos ver el status de los servicios puppetserver y puppet que confirman que los servicios funcionan correctamente.
 Además PuppetServer firmó los certificado de PuppetAgent y PuppetDB.
-Los últimos tasks indican que PuppetAgent logró comunicación SSL exitosa con PuppetServer. Por otro lado PuppetDB además de lograr comunicación SSL exitosa con PuppetServer también realizó la instalación de PostgreSQL . 
-El output del último task indica que PuppetDB abrió el puerto 8081 el cual usa para la base de datos.
+Los últimos tasks indican que PuppetAgent y PuppetDB lograron comunicación SSL exitosa con PuppetServer. 
+Por otro lado PuppetDB abrió puerto tcp/8081 y además tcp/5432 para uso de Postgres
 
 ```
 challenger-16@challenge-3-pivote:~/ansible-dir$ ansible-playbook -i myinventory.ini myplay.yml
@@ -12,14 +12,14 @@ challenger-16@challenge-3-pivote:~/ansible-dir$ ansible-playbook -i myinventory.
 PLAY [all] ******************************************************************************************************************************************************
 
 TASK [Edit /etc/hosts file] *************************************************************************************************************************************
+ok: [puppetdb]
 ok: [puppetserver]
 ok: [puppetagent_0]
-ok: [puppetdb]
 
 TASK [Download Puppet.deb] **************************************************************************************************************************************
+ok: [puppetdb]
 ok: [puppetserver]
 ok: [puppetagent_0]
-ok: [puppetdb]
 
 TASK [Install Puppet repository] ********************************************************************************************************************************
 ok: [puppetdb]
@@ -28,8 +28,8 @@ ok: [puppetagent_0]
 
 TASK [Apt update] ***********************************************************************************************************************************************
 changed: [puppetserver]
-changed: [puppetagent_0]
 changed: [puppetdb]
+changed: [puppetagent_0]
 
 PLAY [puppetserver] *********************************************************************************************************************************************
 
@@ -53,12 +53,12 @@ ok: [puppetserver] => {
     "result.stdout_lines": [
         "● puppetserver.service - puppetserver Service",
         "     Loaded: loaded (/lib/systemd/system/puppetserver.service; enabled; vendor preset: enabled)",
-        "     Active: active (running) since Tue 2024-07-09 09:24:10 UTC; 15min ago",
+        "     Active: active (running) since Tue 2024-07-09 09:24:10 UTC; 20min ago",
         "    Process: 25053 ExecStart=/opt/puppetlabs/server/apps/puppetserver/bin/puppetserver start (code=exited, status=0/SUCCESS)",
         "   Main PID: 25102 (java)",
-        "      Tasks: 56 (limit: 4915)",
-        "     Memory: 834.7M",
-        "        CPU: 1min 30.454s",
+        "      Tasks: 54 (limit: 4915)",
+        "     Memory: 856.6M",
+        "        CPU: 1min 35.913s",
         "     CGroup: /system.slice/puppetserver.service",
         "             └─25102 /usr/bin/java --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED -Xms512m -Xmx512m -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger -Dlogappender=F1 -XX:+CrashOnOutOfMemoryError -XX:ErrorFile=/var/log/puppetlabs/puppetserver/puppetserver_err_pid%p.log -cp \"/opt/puppetlabs/server/apps/puppetserver/puppet-server-release.jar:/opt/puppetlabs/server/data/puppetserver/jars/*\" clojure.main -m puppetlabs.trapperkeeper.main --config /etc/puppetlabs/puppetserver/conf.d --bootstrap-config /etc/puppetlabs/puppetserver/services.d/,/opt/puppetlabs/server/apps/puppetserver/config/services.d/ --restart-file /opt/puppetlabs/server/data/puppetserver/restartcounter",
         "",
@@ -86,8 +86,8 @@ changed: [puppetdb]
 changed: [puppetagent_0]
 
 TASK [Avoid services need to be restarted warning popups] *******************************************************************************************************
-changed: [puppetagent_0]
 changed: [puppetdb]
+changed: [puppetagent_0]
 
 TASK [Start and enable services] ********************************************************************************************************************************
 ok: [puppetdb]
@@ -102,12 +102,12 @@ ok: [puppetagent_0] => {
     "result.stdout_lines": [
         "● puppet.service - Puppet agent",
         "     Loaded: loaded (/lib/systemd/system/puppet.service; enabled; vendor preset: enabled)",
-        "     Active: active (running) since Tue 2024-07-09 08:06:55 UTC; 1h 33min ago",
+        "     Active: active (running) since Tue 2024-07-09 08:06:55 UTC; 1h 37min ago",
         "       Docs: man:puppet-agent(8)",
         "   Main PID: 8854 (puppet)",
         "      Tasks: 2 (limit: 2324)",
-        "     Memory: 76.3M",
-        "        CPU: 12.826s",
+        "     Memory: 76.4M",
+        "        CPU: 12.839s",
         "     CGroup: /system.slice/puppet.service",
         "             └─8854 /opt/puppetlabs/puppet/bin/ruby /opt/puppetlabs/puppet/bin/puppet agent --no-daemonize",
         "",
@@ -127,12 +127,12 @@ ok: [puppetdb] => {
     "result.stdout_lines": [
         "● puppet.service - Puppet agent",
         "     Loaded: loaded (/lib/systemd/system/puppet.service; enabled; vendor preset: enabled)",
-        "     Active: active (running) since Tue 2024-07-09 08:39:50 UTC; 1h 0min ago",
+        "     Active: active (running) since Tue 2024-07-09 08:39:50 UTC; 1h 4min ago",
         "       Docs: man:puppet-agent(8)",
         "   Main PID: 10355 (puppet)",
         "      Tasks: 2 (limit: 2324)",
-        "     Memory: 75.9M",
-        "        CPU: 28.178s",
+        "     Memory: 75.7M",
+        "        CPU: 28.186s",
         "     CGroup: /system.slice/puppet.service",
         "             └─10355 /opt/puppetlabs/puppet/bin/ruby /opt/puppetlabs/puppet/bin/puppet agent --no-daemonize",
         "",
@@ -152,7 +152,7 @@ ok: [puppetdb] => {
 PLAY [puppetserver] *********************************************************************************************************************************************
 
 TASK [Sign CA from Puppet Agents] *******************************************************************************************************************************
-fatal: [puppetserver]: FAILED! => {"changed": true, "cmd": ["/opt/puppetlabs/bin/puppetserver", "ca", "sign", "--all"], "delta": "0:00:00.355058", "end": "2024-07-09 09:40:12.965968", "msg": "non-zero return code", "rc": 24, "start": "2024-07-09 09:40:12.610910", "stderr": "Error:\n    No waiting certificate requests to sign", "stderr_lines": ["Error:", "    No waiting certificate requests to sign"], "stdout": "", "stdout_lines": []}
+fatal: [puppetserver]: FAILED! => {"changed": true, "cmd": ["/opt/puppetlabs/bin/puppetserver", "ca", "sign", "--all"], "delta": "0:00:00.351550", "end": "2024-07-09 09:44:18.499003", "msg": "non-zero return code", "rc": 24, "start": "2024-07-09 09:44:18.147453", "stderr": "Error:\n    No waiting certificate requests to sign", "stderr_lines": ["Error:", "    No waiting certificate requests to sign"], "stdout": "", "stdout_lines": []}
 ...ignoring
 
 TASK [Install PuppetDB module in PuppetServer] ******************************************************************************************************************
@@ -191,7 +191,7 @@ ok: [puppetagent_0] => {
         "\u001b[mNotice: Requesting catalog from puppet:8140 (10.100.65.79)\u001b[0m",
         "\u001b[mNotice: Catalog compiled by tf-puppetserver.openstacklocal\u001b[0m",
         "\u001b[0;32mInfo: Caching catalog for tf-puppetagent-0.openstacklocal\u001b[0m",
-        "\u001b[0;32mInfo: Applying configuration version '1720518031'\u001b[0m",
+        "\u001b[0;32mInfo: Applying configuration version '1720518273'\u001b[0m",
         "\u001b[mNotice: Applied catalog in 0.01 seconds\u001b[0m"
     ]
 }
@@ -204,8 +204,8 @@ ok: [puppetdb] => {
         "\u001b[mNotice: Requesting catalog from puppet:8140 (10.100.65.79)\u001b[0m",
         "\u001b[mNotice: Catalog compiled by tf-puppetserver.openstacklocal\u001b[0m",
         "\u001b[0;32mInfo: Caching catalog for tf-puppetdb.openstacklocal\u001b[0m",
-        "\u001b[0;32mInfo: Applying configuration version '1720518027'\u001b[0m",
-        "\u001b[mNotice: Applied catalog in 1.30 seconds\u001b[0m"
+        "\u001b[0;32mInfo: Applying configuration version '1720518273'\u001b[0m",
+        "\u001b[mNotice: Applied catalog in 1.26 seconds\u001b[0m"
     ]
 }
 
@@ -217,13 +217,12 @@ changed: [puppetdb]
 TASK [Show opened port tcp/8081] ********************************************************************************************************************************
 ok: [puppetdb] => {
     "result.stdout_lines": [
-        "LISTEN    0      50                         *:8081                      *:*     users:((\"java\",pid=25058,fd=11))                                                  ",
-        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55492 timer:(timewait,57sec,0)                                                          ",
-        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55484 timer:(timewait,53sec,0)                                                          ",
-        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55486 timer:(timewait,57sec,0)                                                          ",
-        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55488 timer:(timewait,57sec,0)                                                          ",
-        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55480 timer:(timewait,26sec,0)                                                          ",
-        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55478 timer:(timewait,22sec,0)                                                          "
+        "LISTEN    0      4096           127.0.0.53%lo:53                  0.0.0.0:*     users:((\"systemd-resolve\",pid=541,fd=14))                                         ",
+        "LISTEN    0      128                  0.0.0.0:22                  0.0.0.0:*     users:((\"sshd\",pid=832,fd=3))                                                     ",
+        "LISTEN    0      244                  0.0.0.0:5432                0.0.0.0:*     users:((\"postgres\",pid=23023,fd=5))                                               ",
+        "LISTEN    0      128                     [::]:22                     [::]:*     users:((\"sshd\",pid=832,fd=4))                                                     ",
+        "LISTEN    0      50        [::ffff:127.0.0.1]:8080                      *:*     users:((\"java\",pid=25058,fd=10))                                                  ",
+        "LISTEN    0      50                         *:8081                      *:*     users:((\"java\",pid=25058,fd=11))                                                  "
     ]
 }
 
@@ -231,5 +230,4 @@ PLAY RECAP *********************************************************************
 puppetagent_0              : ok=12   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 puppetdb                   : ok=14   changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 puppetserver               : ok=16   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
-
 ```

@@ -41,6 +41,33 @@ provider "openstack" {
 ```
 
 
+Verificamos con "terraform init"
+
+```
+challenger-16@challenge-3-pivote:~/terraform-dir$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- terraform.io/builtin/terraform is built in to Terraform
+- Finding ansible/ansible versions matching "1.3.0"...
+- Reusing previous version of terraform-provider-openstack/openstack from the dependency lock file
+- Installing ansible/ansible v1.3.0...
+- Installed ansible/ansible v1.3.0 (self-signed, key ID 41F01D0480007165)
+- Using previously-installed terraform-provider-openstack/openstack v1.53.0
+
+Partner and community providers are signed by their developers.
+If you'd like to know more about provider signing, you can read about it here:
+https://www.terraform.io/docs/cli/plugins/signing.html
+
+Terraform has made some changes to the provider dependency selections recorded
+in the .terraform.lock.hcl file. Review those changes and commit them to your
+version control system if they represent changes you intended to make.
+
+Terraform has been successfully initialized!
+```
+
+
 También vamos a crear un archivo "ansible.tf" para crear un inventario dinámico y para ejecutar el playbook de Ansible.
 ```
 challenger-16@challenge-3-pivote:~/terraform-dir$ more ansible.tf

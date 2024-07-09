@@ -84,17 +84,17 @@ Creamos el playbook para desplegar PuppetServer, PuppetAgent.
 
 
 ```
-challenger-16@challenge-3-pivote:~/ansible-dir$ echo '
 ---
 - hosts: all
+  gather_facts: no
   tasks:
    - name: Edit /etc/hosts file
      become: yes
      ansible.builtin.blockinfile:
        path: /etc/hosts
        block: |
-         10.100.65.79  puppet puppetserver
-         10.100.67.48 puppetdb.openstacklocal
+         10.100.65.79  puppet puppetserver tf-puppetserver.openstacklocal
+         10.100.67.48 tf-puppetdb.openstacklocal
        insertafter: "EOF"
 
 
@@ -115,6 +115,7 @@ challenger-16@challenge-3-pivote:~/ansible-dir$ echo '
         update_cache: yes
 
 - hosts: puppetserver
+  gather_facts: no
   tasks:
    - name: Install Puppet Server
      become: yes
@@ -144,7 +145,8 @@ challenger-16@challenge-3-pivote:~/ansible-dir$ echo '
      debug:
        var: result.stdout_lines
 
-- hosts: puppetagents
+- hosts: [puppetagents puppetdb]
+  gather_facts: no
   tasks:
    - name: Install Puppet Agent
      become: yes
@@ -175,20 +177,74 @@ challenger-16@challenge-3-pivote:~/ansible-dir$ echo '
        var: result.stdout_lines
 
 - hosts: puppetserver
+  gather_facts: no
   tasks:
    - name: Sign CA from Puppet Agents
      become: yes
      command: /opt/puppetlabs/bin/puppetserver ca sign --all
+     ignore_errors: true
+
+   - name: Install PuppetDB module in PuppetServer
+     become: yes
+     command: sudo /opt/puppetlabs/bin/puppet  module install puppetlabs-puppetdb --version 8.1.0
+     register: result
+
+   - name: Show result of module installation
+     debug:
+       var: result.stdout_lines
+
+   - name: Create site.pp
+     become: yes
+     file:
+       path: "/etc/puppetlabs/code/environments/production/manifests/site.pp"
+       state: touch
+
+   - name: Edit site.pp
+     become: yes
+     ansible.builtin.blockinfile:
+       path: /etc/puppetlabs/code/environments/production/manifests/site.pp
+       block: |
+        node 'default' {}
+        node 'tf-puppetserver.openstacklocal' {
+          class { 'puppetdb::master::config':
+            puppetdb_server => 'tf-puppetdb.openstacklocal',
+          }
+        }
+
+        node 'tf-puppetdb.openstacklocal' {
+          class { 'puppetdb':
+            database_host => 'tf-puppetdb.openstacklocal',
+            database_listen_address => '0.0.0.0'
+          }
+        }
+       insertafter: "EOF"
+
+   - name: Apply Site.pp in Puppet Server
+     become: yes
+     command: sudo /opt/puppetlabs/bin/puppet apply  /etc/puppetlabs/code/environments/production/manifests/site.pp
 
 
-- hosts: puppetagents
+- hosts: [puppetagents puppetdb]
+  gather_facts: no
   tasks:
-   - name: Test communication between Agents and Server
+   - name: Test communication between Agents , PuppetDB and PuppetServer
      become: yes
      command: sudo /opt/puppetlabs/bin/puppet agent --test
      register: result
 
    - name: Show test result
+     debug:
+       var: result.stdout_lines
+
+- hosts: puppetdb
+  gather_facts: no
+  tasks:
+   - name: Verify opened port for PuppetDB
+     become: yes
+     shell: sudo ss -aontp | grep LISTEN
+     register: result
+
+   - name: Show opened port tcp/8081
      debug:
        var: result.stdout_lines
 ' > myplay.yml

@@ -13,7 +13,7 @@ challenger-16@challenge-3-pivote:~/terraform-dir$ ls -hal *tf
 Reusaremos todos los archivos *.tf.  La única excepción es el archivo "provider.tf" al cual le agregaremos un provider más para poder conectarse a Ansible.
 
 ```
-echo ' terraform {
+challenger-16@challenge-3-pivote:~/terraform-dir$ echo ' terraform {
   required_version = ">= 0.14.0"
   required_providers {
     openstack = {

@@ -1,5 +1,8 @@
 # CHALLENGE 03: PASO 6
 
+
+## ARCHIVOS DE TERRAFORM
+
 Vamos al directorio "terraform-dir" que usamos en los pasos 2 y 3.
 
 ```
@@ -56,6 +59,7 @@ resource "terraform_data" "ansible_playbook" {
 }
 ```
 
+## ARCHIVOS DE ANSIBLE
 
 Crear archivo con inventario de Ansible. Dicho archivo sólo tendrá un plugin que luego recibirá dinámicante la información de los hostnames y direcciones IP de las instancias que Terraform creará.
 
@@ -63,3 +67,9 @@ Crear archivo con inventario de Ansible. Dicho archivo sólo tendrá un plugin q
 challenger-16@challenge-3-pivote:~/terraform-dir$ echo 'plugin: cloud.terraform.terraform_provider' > inventory.yml
 challenger-16@challenge-3-pivote:~/terraform-dir$
 ```
+
+## EJECUTAR MODULO DE TERRAFORM PARA DESPLEGAR INFRAESTRUCTURA Y EJECUTAR ANSIBLE PLAYBOOKS
+
+
+
+

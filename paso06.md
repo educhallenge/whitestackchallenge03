@@ -1,9 +1,13 @@
 # CHALLENGE 03: PASO 6
 
+Vamos al directorio "terraform-dir" que usamos en los pasos 2 y 3.
+
 Crear archivo de inventario que luego recibirá dinámicante la información de los hostnames y direcciones IP de las instancias que Terraform creará.
 
-
-
+```
+challenger-16@challenge-3-pivote:~/terraform-dir$ echo 'plugin: cloud.terraform.terraform_provider' > inventory.yml
+challenger-16@challenge-3-pivote:~/terraform-dir$
+```
 
 Crear archivo "ansible.tf"
 ```

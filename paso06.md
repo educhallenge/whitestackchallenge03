@@ -1,4 +1,6 @@
+# CHALLENGE 03: PASO 6
 
+Crear archivo "ansible.tf"
 ```
 challenger-16@challenge-3-pivote:~/terraform-dir$ more ansible.tf
 resource "terraform_data" "ansible_inventory" {

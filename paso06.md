@@ -1,3 +1,5 @@
+
+```
 challenger-16@challenge-3-pivote:~/terraform-dir$ more ansible.tf
 resource "terraform_data" "ansible_inventory" {
         provisioner "local-exec" {
@@ -12,3 +14,4 @@ resource "terraform_data" "ansible_playbook" {
         }
         depends_on = [terraform_data.ansible_inventory]
 }
+```

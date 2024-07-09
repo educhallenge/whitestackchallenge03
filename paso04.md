@@ -82,7 +82,6 @@ puppetagent_0 | SUCCESS => {
 
 Creamos el playbook para desplegar PuppetServer, PuppetAgent.
 
-
 ```
 challenger-16@challenge-3-pivote:~/ansible-dir$ echo '
 ---
@@ -114,37 +113,6 @@ challenger-16@challenge-3-pivote:~/ansible-dir$ echo '
      become: yes
      apt:
         update_cache: yes
-
-- hosts: puppetserver
-  gather_facts: no
-  tasks:
-   - name: Install Puppet Server
-     become: yes
-     apt:
-       name: puppetserver
-       state: present
-
-   - name: Change Java options Xms to reduce memory usage
-     action: shell sudo sed -i 's/Xms2g/Xms512m/' /etc/default/puppetserver
-
-   - name: Change Java Xmx to reduce memory usage
-     action: shell sudo sed -i 's/Xmx2g/Xmx512m/' /etc/default/puppetserver
-
-   - name: Start and enable services
-     become: yes
-     systemd:
-      name: puppetserver
-      state: started
-      enabled: yes
-
-   - name: Check service status
-     become: yes
-     command: systemctl status puppetserver
-     register: result
-
-   - name: Show service status
-     debug:
-       var: result.stdout_lines
 
 - hosts: [puppetagents puppetdb]
   gather_facts: no
@@ -180,6 +148,38 @@ challenger-16@challenge-3-pivote:~/ansible-dir$ echo '
 - hosts: puppetserver
   gather_facts: no
   tasks:
+   - name: Install Puppet Server
+     become: yes
+     apt:
+       name: puppetserver
+       state: present
+
+   - name: Change Java options Xms to reduce memory usage
+     action: shell sudo sed -i 's/Xms2g/Xms512m/' /etc/default/puppetserver
+
+   - name: Change Java Xmx to reduce memory usage
+     action: shell sudo sed -i 's/Xmx2g/Xmx512m/' /etc/default/puppetserver
+
+   - name: Start and enable services
+     become: yes
+     systemd:
+      name: puppetserver
+      state: started
+      enabled: yes
+
+   - name: Check service status
+     become: yes
+     command: systemctl status puppetserver
+     register: result
+
+   - name: Show service status
+     debug:
+       var: result.stdout_lines
+
+   - name: Wait 20 seconds for Agents and PuppetDB to request a certificate
+     ansible.builtin.pause:
+       seconds: 20
+
    - name: Sign CA from Puppet Agents
      become: yes
      command: /opt/puppetlabs/bin/puppetserver ca sign --all

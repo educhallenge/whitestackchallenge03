@@ -12,23 +12,23 @@ challenger-16@challenge-3-pivote:~/ansible-dir$ ansible-playbook -i myinventory.
 PLAY [all] ******************************************************************************************************************************************************
 
 TASK [Edit /etc/hosts file] *************************************************************************************************************************************
-ok: [puppetdb]
-ok: [puppetagent_0]
 ok: [puppetserver]
+ok: [puppetagent_0]
+ok: [puppetdb]
 
 TASK [Download Puppet.deb] **************************************************************************************************************************************
-ok: [puppetdb]
-ok: [puppetagent_0]
 ok: [puppetserver]
+ok: [puppetagent_0]
+ok: [puppetdb]
 
 TASK [Install Puppet repository] ********************************************************************************************************************************
-ok: [puppetagent_0]
 ok: [puppetdb]
 ok: [puppetserver]
+ok: [puppetagent_0]
 
 TASK [Apt update] ***********************************************************************************************************************************************
-changed: [puppetagent_0]
 changed: [puppetserver]
+changed: [puppetagent_0]
 changed: [puppetdb]
 
 PLAY [puppetserver] *********************************************************************************************************************************************
@@ -53,15 +53,14 @@ ok: [puppetserver] => {
     "result.stdout_lines": [
         "● puppetserver.service - puppetserver Service",
         "     Loaded: loaded (/lib/systemd/system/puppetserver.service; enabled; vendor preset: enabled)",
-        "     Active: active (running) since Tue 2024-07-09 09:24:10 UTC; 2min 45s ago",
+        "     Active: active (running) since Tue 2024-07-09 09:24:10 UTC; 15min ago",
         "    Process: 25053 ExecStart=/opt/puppetlabs/server/apps/puppetserver/bin/puppetserver start (code=exited, status=0/SUCCESS)",
         "   Main PID: 25102 (java)",
-        "      Tasks: 59 (limit: 4915)",
-        "     Memory: 865.4M",
-        "        CPU: 51.654s",
+        "      Tasks: 56 (limit: 4915)",
+        "     Memory: 834.7M",
+        "        CPU: 1min 30.454s",
         "     CGroup: /system.slice/puppetserver.service",
-        "             ├─25102 /usr/bin/java --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED -Xms512m -Xmx512m -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger -Dlogappender=F1 -XX:+CrashOnOutOfMemoryError -XX:ErrorFile=/var/log/puppetlabs/puppetserver/puppetserver_err_pid%p.log -cp \"/opt/puppetlabs/server/apps/puppetserver/puppet-server-release.jar:/opt/puppetlabs/server/data/puppetserver/jars/*\" clojure.main -m puppetlabs.trapperkeeper.main --config /etc/puppetlabs/puppetserver/conf.d --bootstrap-config /etc/puppetlabs/puppetserver/services.d/,/opt/puppetlabs/server/apps/puppetserver/config/services.d/ --restart-file /opt/puppetlabs/server/data/puppetserver/restartcounter",
-        "             └─25216 /opt/puppetlabs/puppet/bin/ruby /opt/puppetlabs/server/data/puppetserver/dropsonde/bin/dropsonde submit",
+        "             └─25102 /usr/bin/java --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED -Xms512m -Xmx512m -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger -Dlogappender=F1 -XX:+CrashOnOutOfMemoryError -XX:ErrorFile=/var/log/puppetlabs/puppetserver/puppetserver_err_pid%p.log -cp \"/opt/puppetlabs/server/apps/puppetserver/puppet-server-release.jar:/opt/puppetlabs/server/data/puppetserver/jars/*\" clojure.main -m puppetlabs.trapperkeeper.main --config /etc/puppetlabs/puppetserver/conf.d --bootstrap-config /etc/puppetlabs/puppetserver/services.d/,/opt/puppetlabs/server/apps/puppetserver/config/services.d/ --restart-file /opt/puppetlabs/server/data/puppetserver/restartcounter",
         "",
         "Jul 09 09:24:09 tf-puppetserver puppetserver[25102]: 09:24:09,737 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3924a8b4 - The date pattern is 'yyyy-MM-dd' from file name pattern '/var/log/puppetlabs/puppetserver/puppetserver-access-%d{yyyy-MM-dd}.%i.log.gz'.",
         "Jul 09 09:24:09 tf-puppetserver puppetserver[25102]: 09:24:09,737 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3924a8b4 - Roll-over at midnight.",
@@ -79,81 +78,81 @@ ok: [puppetserver] => {
 PLAY [puppetagents puppetdb] ************************************************************************************************************************************
 
 TASK [Install Puppet Agent] *************************************************************************************************************************************
-ok: [puppetagent_0]
 ok: [puppetdb]
+ok: [puppetagent_0]
 
 TASK [Avoid kernel warning popups] ******************************************************************************************************************************
-changed: [puppetagent_0]
 changed: [puppetdb]
+changed: [puppetagent_0]
 
 TASK [Avoid services need to be restarted warning popups] *******************************************************************************************************
-changed: [puppetdb]
 changed: [puppetagent_0]
+changed: [puppetdb]
 
 TASK [Start and enable services] ********************************************************************************************************************************
-ok: [puppetagent_0]
 ok: [puppetdb]
+ok: [puppetagent_0]
 
 TASK [Check service status] *************************************************************************************************************************************
-changed: [puppetagent_0]
 changed: [puppetdb]
+changed: [puppetagent_0]
 
 TASK [Show service status] **************************************************************************************************************************************
 ok: [puppetagent_0] => {
     "result.stdout_lines": [
         "● puppet.service - Puppet agent",
         "     Loaded: loaded (/lib/systemd/system/puppet.service; enabled; vendor preset: enabled)",
-        "     Active: active (running) since Tue 2024-07-09 08:06:55 UTC; 1h 20min ago",
+        "     Active: active (running) since Tue 2024-07-09 08:06:55 UTC; 1h 33min ago",
         "       Docs: man:puppet-agent(8)",
         "   Main PID: 8854 (puppet)",
         "      Tasks: 2 (limit: 2324)",
-        "     Memory: 75.9M",
-        "        CPU: 8.446s",
+        "     Memory: 76.3M",
+        "        CPU: 12.826s",
         "     CGroup: /system.slice/puppet.service",
         "             └─8854 /opt/puppetlabs/puppet/bin/ruby /opt/puppetlabs/puppet/bin/puppet agent --no-daemonize",
         "",
-        "Jul 09 08:13:30 tf-puppetagent-0 puppet-agent[9881]: Requesting catalog from puppet:8140 (10.100.65.79)",
-        "Jul 09 08:13:30 tf-puppetagent-0 puppet-agent[9881]: Catalog compiled by tf-puppetserver.openstacklocal",
-        "Jul 09 08:13:30 tf-puppetagent-0 puppet-agent[9881]: Applied catalog in 0.01 seconds",
         "Jul 09 08:36:58 tf-puppetagent-0 puppet-agent[9930]: Requesting catalog from puppet:8140 (10.100.65.79)",
         "Jul 09 08:36:58 tf-puppetagent-0 puppet-agent[9930]: Catalog compiled by tf-puppetserver.openstacklocal",
         "Jul 09 08:36:58 tf-puppetagent-0 puppet-agent[9930]: Applied catalog in 0.01 seconds",
         "Jul 09 09:07:02 tf-puppetagent-0 puppet-agent[16911]: Requesting catalog from puppet:8140 (10.100.65.79)",
         "Jul 09 09:07:02 tf-puppetagent-0 puppet-agent[16911]: Catalog compiled by tf-puppetserver.openstacklocal",
         "Jul 09 09:07:02 tf-puppetagent-0 puppet-agent[16911]: Could not retrieve catalog from remote server: Error 500 on SERVER: Server Error: Could not find node statement with name 'default' or 'tf-puppetagent-0.openstacklocal' on node tf-puppetagent-0.openstacklocal",
-        "Jul 09 09:07:02 tf-puppetagent-0 puppet-agent[16911]: Applied catalog in 0.01 seconds"
+        "Jul 09 09:07:02 tf-puppetagent-0 puppet-agent[16911]: Applied catalog in 0.01 seconds",
+        "Jul 09 09:37:02 tf-puppetagent-0 puppet-agent[23633]: Requesting catalog from puppet:8140 (10.100.65.79)",
+        "Jul 09 09:37:02 tf-puppetagent-0 puppet-agent[23633]: Catalog compiled by tf-puppetserver.openstacklocal",
+        "Jul 09 09:37:02 tf-puppetagent-0 puppet-agent[23633]: Applied catalog in 0.01 seconds"
     ]
 }
 ok: [puppetdb] => {
     "result.stdout_lines": [
         "● puppet.service - Puppet agent",
         "     Loaded: loaded (/lib/systemd/system/puppet.service; enabled; vendor preset: enabled)",
-        "     Active: active (running) since Tue 2024-07-09 08:39:50 UTC; 47min ago",
+        "     Active: active (running) since Tue 2024-07-09 08:39:50 UTC; 1h 0min ago",
         "       Docs: man:puppet-agent(8)",
         "   Main PID: 10355 (puppet)",
         "      Tasks: 2 (limit: 2324)",
-        "     Memory: 75.1M",
-        "        CPU: 22.197s",
+        "     Memory: 75.9M",
+        "        CPU: 28.178s",
         "     CGroup: /system.slice/puppet.service",
         "             └─10355 /opt/puppetlabs/puppet/bin/ruby /opt/puppetlabs/puppet/bin/puppet agent --no-daemonize",
         "",
-        "Jul 09 08:39:50 tf-puppetdb systemd[1]: Started Puppet agent.",
-        "Jul 09 08:39:51 tf-puppetdb puppet-agent[10355]: Starting Puppet client version 8.7.0",
-        "Jul 09 08:42:37 tf-puppetdb puppet[10355]: Couldn't fetch certificate from CA server; you might still need to sign this agent's certificate (tf-puppetdb.openstacklocal).",
         "Jul 09 08:42:38 tf-puppetdb puppet-agent[11322]: Requesting catalog from puppet:8140 (10.100.65.79)",
         "Jul 09 08:42:39 tf-puppetdb puppet-agent[11322]: Catalog compiled by tf-puppetserver.openstacklocal",
         "Jul 09 08:42:39 tf-puppetdb puppet-agent[11322]: Applied catalog in 0.01 seconds",
         "Jul 09 09:09:56 tf-puppetdb puppet-agent[17542]: Requesting catalog from puppet:8140 (10.100.65.79)",
         "Jul 09 09:09:56 tf-puppetdb puppet-agent[17542]: Catalog compiled by tf-puppetserver.openstacklocal",
         "Jul 09 09:09:56 tf-puppetdb puppet-agent[17542]: Could not retrieve catalog from remote server: Error 500 on SERVER: Server Error: Could not find node statement with name 'default' or 'tf-puppetdb.openstacklocal' on node tf-puppetdb.openstacklocal",
-        "Jul 09 09:09:56 tf-puppetdb puppet-agent[17542]: Applied catalog in 0.01 seconds"
+        "Jul 09 09:09:56 tf-puppetdb puppet-agent[17542]: Applied catalog in 0.01 seconds",
+        "Jul 09 09:39:56 tf-puppetdb puppet-agent[30398]: Requesting catalog from puppet:8140 (10.100.65.79)",
+        "Jul 09 09:40:01 tf-puppetdb puppet-agent[30398]: Catalog compiled by tf-puppetserver.openstacklocal",
+        "Jul 09 09:40:03 tf-puppetdb puppet-agent[30398]: Applied catalog in 1.77 seconds"
     ]
 }
 
 PLAY [puppetserver] *********************************************************************************************************************************************
 
 TASK [Sign CA from Puppet Agents] *******************************************************************************************************************************
-fatal: [puppetserver]: FAILED! => {"changed": true, "cmd": ["/opt/puppetlabs/bin/puppetserver", "ca", "sign", "--all"], "delta": "0:00:00.658183", "end": "2024-07-09 09:27:00.433979", "msg": "non-zero return code", "rc": 24, "start": "2024-07-09 09:26:59.775796", "stderr": "Error:\n    No waiting certificate requests to sign", "stderr_lines": ["Error:", "    No waiting certificate requests to sign"], "stdout": "", "stdout_lines": []}
+fatal: [puppetserver]: FAILED! => {"changed": true, "cmd": ["/opt/puppetlabs/bin/puppetserver", "ca", "sign", "--all"], "delta": "0:00:00.355058", "end": "2024-07-09 09:40:12.965968", "msg": "non-zero return code", "rc": 24, "start": "2024-07-09 09:40:12.610910", "stderr": "Error:\n    No waiting certificate requests to sign", "stderr_lines": ["Error:", "    No waiting certificate requests to sign"], "stdout": "", "stdout_lines": []}
 ...ignoring
 
 TASK [Install PuppetDB module in PuppetServer] ******************************************************************************************************************
@@ -178,7 +177,7 @@ changed: [puppetserver]
 
 PLAY [puppetagents puppetdb] ************************************************************************************************************************************
 
-TASK [Test communication between Agents and Server] *************************************************************************************************************
+TASK [Test communication between Agents , PuppetDB and PuppetServer] ********************************************************************************************
 changed: [puppetagent_0]
 changed: [puppetdb]
 
@@ -192,7 +191,7 @@ ok: [puppetagent_0] => {
         "\u001b[mNotice: Requesting catalog from puppet:8140 (10.100.65.79)\u001b[0m",
         "\u001b[mNotice: Catalog compiled by tf-puppetserver.openstacklocal\u001b[0m",
         "\u001b[0;32mInfo: Caching catalog for tf-puppetagent-0.openstacklocal\u001b[0m",
-        "\u001b[0;32mInfo: Applying configuration version '1720517235'\u001b[0m",
+        "\u001b[0;32mInfo: Applying configuration version '1720518031'\u001b[0m",
         "\u001b[mNotice: Applied catalog in 0.01 seconds\u001b[0m"
     ]
 }
@@ -205,13 +204,32 @@ ok: [puppetdb] => {
         "\u001b[mNotice: Requesting catalog from puppet:8140 (10.100.65.79)\u001b[0m",
         "\u001b[mNotice: Catalog compiled by tf-puppetserver.openstacklocal\u001b[0m",
         "\u001b[0;32mInfo: Caching catalog for tf-puppetdb.openstacklocal\u001b[0m",
-        "\u001b[0;32mInfo: Applying configuration version '1720517236'\u001b[0m",
-        "\u001b[mNotice: Applied catalog in 1.27 seconds\u001b[0m"
+        "\u001b[0;32mInfo: Applying configuration version '1720518027'\u001b[0m",
+        "\u001b[mNotice: Applied catalog in 1.30 seconds\u001b[0m"
+    ]
+}
+
+PLAY [puppetdb] *************************************************************************************************************************************************
+
+TASK [Verify opened port for PuppetDB] **************************************************************************************************************************
+changed: [puppetdb]
+
+TASK [Show opened port tcp/8081] ********************************************************************************************************************************
+ok: [puppetdb] => {
+    "result.stdout_lines": [
+        "LISTEN    0      50                         *:8081                      *:*     users:((\"java\",pid=25058,fd=11))                                                  ",
+        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55492 timer:(timewait,57sec,0)                                                          ",
+        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55484 timer:(timewait,53sec,0)                                                          ",
+        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55486 timer:(timewait,57sec,0)                                                          ",
+        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55488 timer:(timewait,57sec,0)                                                          ",
+        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55480 timer:(timewait,26sec,0)                                                          ",
+        "TIME-WAIT 0      0      [::ffff:10.100.67.48]:8081  [::ffff:10.100.65.79]:55478 timer:(timewait,22sec,0)                                                          "
     ]
 }
 
 PLAY RECAP ******************************************************************************************************************************************************
 puppetagent_0              : ok=12   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-puppetdb                   : ok=12   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+puppetdb                   : ok=14   changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 puppetserver               : ok=16   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+
 ```

@@ -12,7 +12,30 @@ challenger-16@challenge-3-pivote:~/terraform-dir$ ls -hal *tf
 ```
 Reusaremos todos los archivos *.tf.  La única excepción es el archivo "provider.tf" al cual le agregaremos un provider más para poder conectarse a Ansible.
 
+```
+echo ' terraform {
+  required_version = ">= 0.14.0"
+  required_providers {
+    openstack = {
+      source  = "terraform-provider-openstack/openstack"
+      version = "~> 1.53.0"
+    }
+    ansible = {
+      source = "ansible/ansible"
+      version = "1.1.0"
+    }
+  }
+}
 
+provider "openstack" {
+  user_name   = "challenger-16"
+  tenant_name = "challenger-16"
+  password    = "oKah9uos4jae4keebahb\\"
+  auth_url    = "http://10.100.1.31:5000/v3"
+  region      = "RegionOne"
+}
+' > provider.tf
+```
 
 
 También vamos a crear un archivo "ansible.tf" para crear un inventario dinámico y para ejecutar el playbook de Ansible.

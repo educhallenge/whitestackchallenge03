@@ -2,7 +2,7 @@
 
 En este paso ejecutamos el playbook que creamos en el paso anterior.
 En el output de abajo podemos ver el status de los servicios puppetserver y puppet que confirman que los servicios funcionan correctamente.
-Además el output del último paso nos indica que PuppetServer firmó el certificado de PuppetAgent y con ello PuppetAgent logró comunicación SSL con PuppetServer.
+Además el output de los últimos tasks nos indican que PuppetServer firmó el certificado de PuppetAgent y con ello PuppetAgent logró comunicación SSL con PuppetServer.
 
 ```
 challenger-16@challenge-3-pivote:~/ansible-dir$ ansible-playbook -i myinventory.ini myplay.yml

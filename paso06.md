@@ -88,7 +88,12 @@ resource "terraform_data" "ansible_playbook" {
 
 ## ARCHIVOS DE ANSIBLE
 
-Crear archivo con inventario de Ansible. Dicho archivo sólo tendrá un plugin que luego recibirá dinámicante la información de los hostnames y direcciones IP de las instancias que Terraform creará.
+Instalar el plugin de Terraform para Ansible
+```
+ansible-galaxy collection install cloud.terraform
+```
+
+Crear archivo con inventario de Ansible y usar el plugin instalado. Dicho plugin luego recibirá dinámicante la información de las direcciones IP de las instancias que Terraform creará.
 
 ```
 challenger-16@challenge-3-pivote:~/terraform-dir$ echo 'plugin: cloud.terraform.terraform_provider' > inventory.yml

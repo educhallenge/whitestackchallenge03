@@ -90,7 +90,13 @@ resource "terraform_data" "ansible_playbook" {
 
 Instalar el plugin de Terraform para Ansible
 ```
-ansible-galaxy collection install cloud.terraform
+challenger-16@challenge-3-pivote:~/terraform-dir$ ansible-galaxy collection install cloud.terraform
+Starting galaxy collection install process
+Process install dependency map
+Starting collection install process
+Downloading https://galaxy.ansible.com/api/v3/plugin/ansible/content/published/collections/artifacts/cloud-terraform-3.0.0.tar.gz to /home/challenger-16/.ansible/tmp/ansible-local-3344357gtlzzxx/tmpjvlazxh2/cloud-terraform-3.0.0-9wypcrte
+Installing 'cloud.terraform:3.0.0' to '/home/challenger-16/.ansible/collections/ansible_collections/cloud/terraform'
+cloud.terraform:3.0.0 was installed successfully
 ```
 
 Crear archivo con inventario de Ansible y usar el plugin instalado. Dicho plugin luego recibirá dinámicante la información de las direcciones IP de las instancias que Terraform creará.
